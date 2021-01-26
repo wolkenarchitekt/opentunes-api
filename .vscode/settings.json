@@ -1,0 +1,5 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--disable", "C0114,C0115,C0116", "--extension-pkg-whitelist", "pydantic"],    
+    "python.pythonPath": ".venv/bin/python"
+}
