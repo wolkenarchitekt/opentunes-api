@@ -3,10 +3,13 @@ from pathlib import Path
 
 import typer
 import uvicorn
-from mediafile_utils import is_audiofile, track_from_path
+
+from opentunes_api.database import create_tables, create_track
+from opentunes_api.mediafile_utils import is_audiofile, track_from_path
 
 typer_app = typer.Typer()
 
+create_tables()
 
 @typer_app.command()
 def server():
@@ -19,4 +22,6 @@ def server():
 def import_tracks(path: Path):
     files = [file for file in os.scandir(path) if file.is_file() and is_audiofile(file)]
     for file in files:
-        print(track_from_path(file))
+        track = track_from_path(file)
+        print(f"Saving track: {track}")
+        create_track(track)
