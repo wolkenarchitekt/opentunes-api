@@ -1,3 +1,7 @@
 ipdb==0.13.4
 pandoc==1.0.2
 pylint==2.6.0
+
+# Use master until 2.5 is released, fixing pylint having problems with SQLAlchemy:
+# https://github.com/PyCQA/astroid/pull/787
+git+git://github.com/PyCQA/astroid.git#egg=astroid
