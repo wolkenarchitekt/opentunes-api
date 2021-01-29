@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.types import Integer, String
-from fastapi import Depends
+
 from opentunes_api import schemas
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///opentunes.sqlite"
@@ -47,3 +47,8 @@ def create_track(track: schemas.Track):
     db.commit()
     db.refresh(db_track)
     return db_track
+
+
+def get_tracks():
+    db = SessionLocal()
+    return db.query(Track).all()

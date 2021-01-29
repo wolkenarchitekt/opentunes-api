@@ -11,6 +11,7 @@ typer_app = typer.Typer()
 
 create_tables()
 
+
 @typer_app.command()
 def server():
     uvicorn.run(

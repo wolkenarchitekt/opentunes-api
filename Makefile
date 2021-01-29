@@ -16,11 +16,19 @@ virtualenv-runserver:
 
 virtualenv-import:
 	. $(VIRTUALENV_DIR)/bin/activate && \
-		python opentunes_api/main.py import-tracks
+		python opentunes_api/main.py import-tracks music/
 
 virtualenv-autoformat:
 	. $(VIRTUALENV_DIR)/bin/activate && ./autoformat.sh **/*.py
 
+virtualenv-shell:
+	. $(VIRTUALENV_DIR)/bin/activate && ipython
+
+virtualenv-test:
+	. $(VIRTUALENV_DIR)/bin/activate && pytest
 
 readme-convert-markdown-rst:
 	. $(VIRTUALENV_DIR)/bin/activate && pandoc --from=markdown --to=rst --output=README.rst README.md
+
+download-stockmusic:
+	wget -q -O - https://github.com/wolkenarchitekt/opentunes-stockmusic/archive/master.tar.gz | tar xz opentunes-stockmusic-master/music/ --strip-components=1

@@ -1,6 +1,10 @@
+black==20.8b1
+Faker-5.8.0
+flake8==3.8.4
 ipdb==0.13.4
 pandoc==1.0.2
 pylint==2.6.0
+pytest==6.2.2
 
 # Use master until 2.5 is released, fixing pylint having problems with SQLAlchemy:
 # https://github.com/PyCQA/astroid/pull/787
