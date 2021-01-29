@@ -1,15 +1,16 @@
-import faker
 import logging
 import subprocess
-from pathlib import Path
-from typing import List
 import tempfile
+from pathlib import Path
+
+import faker
 import mediafile
 import pytest
 
 logger = logging.getLogger(__name__)
 
-fake = faker.Faker(['it_IT', 'en_US', 'ja_JP'])
+fake = faker.Faker(["de_DE", "en_US", "ja_JP"])
+
 
 def create_mp3(path: Path, duration=5):
     subprocess.run(
@@ -44,9 +45,9 @@ def set_id3_tags(filename):
 
 @pytest.fixture(scope="session")
 def mp3_file(request, tmpdir_factory) -> Path:
-    """ 
+    """
     Generate a valid MP3 file using ffmpeg.
-    
+
     Parametrize fixture to set filename:
     @pytest.mark.parametrize("mp3_file", ("foobar.mp3",), indirect=True)
     """
