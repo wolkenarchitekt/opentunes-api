@@ -1,6 +1,9 @@
 VIRTUALENV_DIR = .venv
 PYTHON_VERSION = 3.8
 
+act:
+	act
+
 virtualenv-create:
 	python$(PYTHON_VERSION) -m venv $(VIRTUALENV_DIR)
 	. $(VIRTUALENV_DIR)/bin/activate && \

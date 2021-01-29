@@ -1,5 +1,5 @@
 black==20.8b1
-Faker-5.8.0
+Faker==5.8.0
 flake8==3.8.4
 ipdb==0.13.4
 pandoc==1.0.2
