@@ -1,3 +1,6 @@
+music/
+*.sqlite
+
 # pandoc-generated Readme for pypi
 README.rst
 
