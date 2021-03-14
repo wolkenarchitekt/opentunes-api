@@ -1,12 +1,9 @@
 #!/bin/bash
 # Install autoflake, black and isort and prettier before usage!
+TMP_ROOT=/tmp/autoformat
+
 autoformat_file() {
     file="${1}"
-    if [[ "${file}" != *.py ]] \
-    && [[ "${file}" != *.js ]] \
-    && [[ "${file}" != *.sql ]]; then
-      continue
-    fi
 
     file="${file}"
     tmpfile="$(mktemp /tmp/XXXXXXXXXXX)"
@@ -26,10 +23,23 @@ autoformat_file() {
         --identifiers lower \
         -o "${file}" \
         "${file}"
+    elif [[ "${file}" == *.json ]]; then
+      jq . "${tmpfile}" > "${file}"
     fi
-    git diff "${tmpfile}" "${file}"
+    git --no-pager diff "${tmpfile}" "${file}"
 }
 
 for file in "${@}"; do
+  # Don't reformat file if it hasn't changed - save file mtime to cache
+  TMP_FILE="${TMP_ROOT}/${file}"
+  mkdir -p "${TMP_ROOT}/$(dirname ${file})"
+  if [ -f "${TMP_FILE}" ] && [ "$(stat --format='%Y' ${TMP_FILE})" -eq "$(stat --format="%Y" ${file})" ]; then
+    continue
+  fi
+
   autoformat_file "${file}"
+
+  # Update cache
+  touch "${TMP_FILE}"
+  touch -r "${file}" "${TMP_FILE}"
 done

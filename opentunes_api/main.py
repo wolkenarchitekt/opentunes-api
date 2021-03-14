@@ -5,5 +5,9 @@ from opentunes_api.cli import typer_app
 fastapi_app = FastAPI()
 
 
-if __name__ == "__main__":
+def main():
     typer_app()
+
+
+if __name__ == "__main__":
+    main()

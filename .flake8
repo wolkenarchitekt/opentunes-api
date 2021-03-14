@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 99
+
+# E402: Module level import not at top of file
+# E501: Line too long
+# W503: Line break occurred before a binary operator
+ignore = E402,E501,W503

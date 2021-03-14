@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>Tracks</title>
+  </head>
+  <body>
+    <h1>Tracks</h1>
+    <ul>
+      {% for link in links %}
+      <li><a href="{{ link.href }}">{{ link.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

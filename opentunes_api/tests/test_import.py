@@ -1,6 +1,10 @@
-import pytest
+from opentunes_api.config import Settings
+from opentunes_api.mediafile_import import track_from_path
 
 
-@pytest.mark.parametrize("mp3_file", ("foobar.mp3",), indirect=True)
 def test_import(mp3_file):
-    assert True
+
+    Settings.music_root = "/tmp/pytest-of-iweinmann/"
+    track = track_from_path(mp3_file)
+    assert track.artist
+    assert track.title

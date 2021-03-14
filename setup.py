@@ -19,5 +19,7 @@ setup(
     packages=find_packages(),
     zip_safe=True,
     include_package_data=True,
-    install_requires=["fastapi",],
+    install_requires=["fastapi==0.63.0"],
+    entry_points={"console_scripts": ["opentunes = opentunes_api.main:main"]},
+    python_requires=">=3.8.5",
 )
