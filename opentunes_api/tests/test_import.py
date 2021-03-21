@@ -1,10 +1,11 @@
-from opentunes_api.config import Settings
-from opentunes_api.mediafile_import import track_from_path
+from typer.testing import CliRunner
+
+from opentunes_api.schemas import TrackSchema
+
+runner = CliRunner()
 
 
-def test_import(mp3_file):
-
-    Settings.music_root = "/tmp/pytest-of-iweinmann/"
-    track = track_from_path(mp3_file)
+def test_import(mp3_file, tmpdir_factory):
+    track = TrackSchema.from_path(mp3_file)
     assert track.artist
     assert track.title

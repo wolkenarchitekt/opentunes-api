@@ -1,3 +1,5 @@
+include Makefile.h
+
 VIRTUALENV_DIR = .venv
 PYTHON_VERSION = 3.8
 
@@ -19,7 +21,7 @@ virtualenv-runserver:
 
 virtualenv-import:
 	. $(VIRTUALENV_DIR)/bin/activate && \
-		python opentunes_api/main.py import-tracks 
+		opentunes import $(MUSIC_ROOT)
 
 virtualenv-autoformat:
 	. $(VIRTUALENV_DIR)/bin/activate && ./autoformat.sh $$(find opentunes_api/ -name "*.py" -printf "%p ")

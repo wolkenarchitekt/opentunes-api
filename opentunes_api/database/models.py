@@ -7,12 +7,13 @@ from opentunes_api.database.types import ArrayType, DBAgnosticNumeric
 Base = declarative_base()
 
 
-class Track(Base):
+class TrackModel(Base):
     __tablename__ = "tracks"
     id = Column(Integer, primary_key=True, index=True)
     artist = Column(String)
     title = Column(String)
-    path = Column(String)
+    file = Column(String, unique=True)
+    file_mtime = Column(DateTime)
     comment = Column(String)
     bpm = Column(DBAgnosticNumeric)
     key = Column(String)
@@ -21,4 +22,4 @@ class Track(Base):
     album = Column(String)
     import_error = Column(String)
     image_files = Column(ArrayType)
-    file_mtime = Column(DateTime)
+    image_import_error = Column(String)

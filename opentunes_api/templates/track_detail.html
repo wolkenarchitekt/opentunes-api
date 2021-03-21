@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <title>Tracks</title>
+  </head>
+  <body>
+    <h1>Track</h1>
+    {% for key, value in track.dict().items() %}
+    <p>{{key}}: {{value}}</p>
+    {% endfor %}
+  </body>
+</html>
