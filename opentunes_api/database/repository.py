@@ -11,9 +11,6 @@ from opentunes_api.schemas import TrackSchema
 
 
 def add_track(session: Session, track_schema: schemas.TrackSchema):
-    image_files = []
-    if track_schema.image_files:
-        image_files = [image_file for image_file in track_schema.image_files]
     db_track = TrackModel(
         bitrate=track_schema.bitrate,
         bpm=track_schema.bpm,
@@ -25,7 +22,6 @@ def add_track(session: Session, track_schema: schemas.TrackSchema):
         file=str(track_schema.file),
         title=track_schema.title,
         import_error=track_schema.import_error,
-        image_files=image_files,
         file_mtime=track_schema.file_mtime,
     )
     session.add(db_track)
@@ -46,7 +42,9 @@ def get_track(
 ) -> Optional[TrackSchema]:
     try:
         result = (
-            session.query(TrackModel).filter_by(file=str(file), file_mtime=file_mtime).one()
+            session.query(TrackModel)
+            .filter_by(file=str(file), file_mtime=file_mtime)
+            .one()
         )
         return TrackSchema.from_orm(result)
     except NoResultFound:

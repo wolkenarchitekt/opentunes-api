@@ -2,7 +2,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.types import DateTime, Integer, String
 
-from opentunes_api.database.types import ArrayType, DBAgnosticNumeric
+from opentunes_api.database.types import DBAgnosticNumeric
 
 Base = declarative_base()
 
@@ -21,5 +21,3 @@ class TrackModel(Base):
     bitrate = Column(Integer)
     album = Column(String)
     import_error = Column(String)
-    image_files = Column(ArrayType)
-    image_import_error = Column(String)

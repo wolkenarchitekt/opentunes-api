@@ -10,8 +10,6 @@ import mediafile
 import pydantic
 from pydantic import FilePath
 
-from opentunes_api.mediafile_import import create_image_thumbnails
-
 
 class TrackSchema(pydantic.BaseModel):
     class Config:
@@ -29,8 +27,6 @@ class TrackSchema(pydantic.BaseModel):
     bitrate: Optional[int]
     album: Optional[str]
     import_error: Optional[str]
-    image_files: Optional[List[str]]
-    image_import_error: Optional[str]
 
     @classmethod
     def from_path(cls, path: Path) -> "TrackSchema":
@@ -43,11 +39,6 @@ class TrackSchema(pydantic.BaseModel):
 
         try:
             media_file = mediafile.MediaFile(path)
-            try:
-                track.image_files = create_image_thumbnails(media_file)
-            except Exception as error:
-                track.image_import_error = str(error)
-
             track.artist = media_file.artist
             track.title = media_file.title
             track.comment = media_file.comments
