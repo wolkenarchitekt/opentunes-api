@@ -10,10 +10,10 @@ import faker
 import mediafile
 import pytest
 from fastapi import FastAPI
+from fastapi.testclient import TestClient
 from PIL import Image
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from starlette.testclient import TestClient
 from typer.testing import CliRunner
 
 import alembic
@@ -208,7 +208,7 @@ def cli_runner(db_session_tmpfile, sqlite_file):
 
 
 @pytest.fixture()
-def api_client(app: FastAPI, db_session: Session) -> Generator[TestClient, Any, None]:
+def api_client(app: FastAPI, db_session: Session):
     """
     Create a new FastAPI TestClient that uses the `db_session` fixture to override
     the `get_db` dependency that is injected into routes.
