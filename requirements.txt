@@ -1,6 +1,7 @@
 alembic==1.5.4
 dataclasses-json==0.5.2
 fastapi==0.63.0
+jinja2==2.11.3
 Pillow==8.1.2
 prettytable==2.1.0
 progress==1.5
