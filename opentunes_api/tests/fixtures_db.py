@@ -16,7 +16,7 @@ def sqlite_file(tmpdir_factory):
 
 
 @pytest.fixture(scope="session")
-def sqlite_file_uri(sqlite_file):
+def sqlite_uri(sqlite_file):
     return f"sqlite:///{sqlite_file}"
 
 
@@ -26,8 +26,8 @@ def engine():
 
 
 @pytest.fixture(scope="session")
-def engine_tmpfile(sqlite_file_uri):
-    return create_engine(sqlite_file_uri)
+def engine_tmpfile(sqlite_uri):
+    return create_engine(sqlite_uri)
 
 
 @pytest.fixture(scope="session")
@@ -75,9 +75,16 @@ def db_session_tmpfile(engine_tmpfile, tables_tmpfile):
 
     session.close()
     # roll back the broader transaction
-    # transaction.rollback()
+    transaction.rollback()
     # put back the connection to the connection pool
     connection.close()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def settings(tmpdir_factory):
+    os.environ["DATABASE_URL"] = "sqlite://"
+    os.environ["MUSIC_ROOT"] = f"{tmpdir_factory.getbasetemp()}/music"
+    os.environ["IMAGE_ROOT"] = f"{tmpdir_factory.getbasetemp()}/images"
 
 
 @pytest.fixture(scope="session")

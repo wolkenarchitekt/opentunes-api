@@ -1,2 +1,2 @@
-# def test_migrations(apply_migrations):
-#     pass
+def test_migrations(apply_migrations):
+    pass

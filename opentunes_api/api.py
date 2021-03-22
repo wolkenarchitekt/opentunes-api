@@ -1,9 +1,10 @@
 import io
+import pprint
 from pathlib import Path
 from typing import Optional
 from urllib.parse import quote
 
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from mediafile import MediaFile
@@ -12,16 +13,11 @@ from sqlalchemy.orm import Session
 from opentunes_api.config import Settings
 from opentunes_api.database import get_db
 from opentunes_api.database.repository import get_tracks
+from opentunes_api.main import fastapi_app
 from opentunes_api.schemas import TrackSchema
 
 settings = Settings()
 templates = Jinja2Templates(directory="opentunes_api/templates")
-fastapi_app = FastAPI()
-
-
-@fastapi_app.get("/info")
-async def info():
-    return settings.dict()
 
 
 @fastapi_app.get("/api/tracks")

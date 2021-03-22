@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a855a75bed10
+Revision ID: 2d98469ff172
 Revises: 
-Create Date: 2021-03-21 16:43:37.838327
+Create Date: 2021-03-21 12:44:25.668577
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 import opentunes_api
 
 # revision identifiers, used by Alembic.
-revision = 'a855a75bed10'
+revision = '2d98469ff172'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,6 +32,8 @@ def upgrade():
     sa.Column('bitrate', sa.Integer(), nullable=True),
     sa.Column('album', sa.String(), nullable=True),
     sa.Column('import_error', sa.String(), nullable=True),
+    sa.Column('image_files', opentunes_api.database.types.ArrayType(), nullable=True),
+    sa.Column('image_import_error', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('file')
     )
