@@ -1,5 +1,4 @@
 import io
-import pprint
 from pathlib import Path
 from typing import Optional
 from urllib.parse import quote
@@ -37,7 +36,10 @@ async def images(path: Path):
 
 @fastapi_app.get("/browse/{path:path}", response_class=HTMLResponse)
 async def browse(request: Request, path: Optional[Path] = None):
-    path = Path(settings.music_root / path)
+    if not path:
+        path = Path(settings.music_root)
+    else:
+        path = Path(settings.music_root / path)
 
     if path.is_dir():
         links = []
@@ -63,7 +65,10 @@ async def browse(request: Request, path: Optional[Path] = None):
 
 @fastapi_app.get("/api/browse/{path:path}")
 async def browse_api(path: Optional[Path] = None):
-    path = Path(settings.music_root / path)
+    if not path:
+        path = Path(settings.music_root)
+    else:
+        path = Path(settings.music_root / path)
 
     if path.is_dir():
         links = []

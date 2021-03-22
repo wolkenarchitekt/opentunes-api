@@ -1,15 +1,7 @@
-import pytest
 from click.testing import Result
-from typer.testing import CliRunner
 
 from opentunes_api.cli import typer_app
 from opentunes_api.schemas import TrackSchema
-
-
-@pytest.fixture
-def cli_runner(db_session_tmpfile, sqlite_file):
-    uri = f"sqlite:///{sqlite_file}"
-    return CliRunner(env={"DATABASE_URL": uri})
 
 
 def assert_exit_code(result: Result):

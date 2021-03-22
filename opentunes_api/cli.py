@@ -82,18 +82,18 @@ def truncate(text: str, max_length: int) -> str:
 
 @typer_app.command()
 def list_tracks(columns: str = "artist,title"):
-    columns = columns.split(",")
+    columns_list = columns.split(",")
 
     with db_session() as session:
         tracks = get_tracks(session=session, limit=20)
 
     table = PrettyTable()
-    table.field_names = columns
+    table.field_names = columns_list
     table.align = "l"
 
     for track in tracks:
         values_list = []
-        for column in columns:
+        for column in columns_list:
             values_list.append(truncate(track.dict()[column], max_length=50))
         table.add_row(values_list)
 

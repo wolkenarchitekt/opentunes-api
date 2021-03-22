@@ -46,7 +46,9 @@ def get_track(
 ) -> Optional[TrackSchema]:
     try:
         result = (
-            session.query(TrackModel).filter_by(file=str(file), file_mtime=file_mtime).one()
+            session.query(TrackModel)
+            .filter_by(file=str(file), file_mtime=file_mtime)
+            .one()
         )
         return TrackSchema.from_orm(result)
     except NoResultFound:

@@ -4,6 +4,9 @@ music/
 # IDE
 .idea
 
+# IPython scratch file
+.ipython_scratch.py
+
 # pandoc-generated Readme for pypi
 README.rst
 
