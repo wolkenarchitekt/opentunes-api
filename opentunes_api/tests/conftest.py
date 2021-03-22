@@ -4,19 +4,25 @@ import subprocess
 import tempfile
 from io import BytesIO
 from pathlib import Path
-from typing import ByteString
+from typing import Any, ByteString, Generator
 
 import faker
 import mediafile
 import pytest
+from fastapi import FastAPI
 from PIL import Image
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
+from starlette.testclient import TestClient
 from typer.testing import CliRunner
 
 import alembic
 from alembic.config import Config
+from opentunes_api.api import get_application
+from opentunes_api.database import get_db
 from opentunes_api.database.models import Base
+from opentunes_api.database.repository import add_track
+from opentunes_api.schemas import TrackSchema
 
 fake = faker.Faker(["de_DE", "en_US", "ja_JP"])
 
@@ -26,6 +32,15 @@ def settings(tmpdir_factory):
     os.environ["DATABASE_URL"] = "sqlite://"
     os.environ["MUSIC_ROOT"] = f"{tmpdir_factory.getbasetemp()}/music"
     os.environ["IMAGE_ROOT"] = f"{tmpdir_factory.getbasetemp()}/images"
+
+
+@pytest.fixture(autouse=True)
+def app() -> Generator[FastAPI, Any, None]:
+    """
+    Create a fresh database on each test case.
+    """
+    _app = get_application()
+    yield _app
 
 
 @pytest.fixture(scope="session")
@@ -64,7 +79,7 @@ def tables_tmpfile(engine_tmpfile):
 
 
 @pytest.fixture(scope="function")
-def db_session(engine, tables):
+def db_session(app, engine, tables):
     """Returns an sqlalchemy session, and after the test tears down everything properly."""
     connection = engine.connect()
     # begin the nested transaction
@@ -179,7 +194,32 @@ def mp3_file(request, tmpdir_factory, image_data) -> Path:
 
 
 @pytest.fixture
+def track_db(mp3_file, db_session):
+    track_schema = TrackSchema.from_path(mp3_file)
+    track_model = add_track(session=db_session, track_schema=track_schema)
+    return track_model
+
+
+@pytest.fixture
 def cli_runner(db_session_tmpfile, sqlite_file):
     # CLI needs file-based sqlite, otherwise DB fixtures won't work
     uri = f"sqlite:///{sqlite_file}"
     return CliRunner(env={"DATABASE_URL": uri})
+
+
+@pytest.fixture()
+def api_client(app: FastAPI, db_session: Session) -> Generator[TestClient, Any, None]:
+    """
+    Create a new FastAPI TestClient that uses the `db_session` fixture to override
+    the `get_db` dependency that is injected into routes.
+    """
+
+    def _get_test_db():
+        try:
+            yield db_session
+        finally:
+            pass
+
+    app.dependency_overrides[get_db] = _get_test_db
+    with TestClient(app) as client:
+        yield client

@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     # Root dir to cache images from tags
     image_root: Path
 
+    title: str = "OpenTunes"
+
     class Config:
         if os.environ.get("STAGE", "DEVELOPMENT") == "DEVELOPMENT":
             env_file = ".env"

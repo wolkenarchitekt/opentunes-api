@@ -1,15 +1,13 @@
-from fastapi.testclient import TestClient
-
-from opentunes_api.main import fastapi_app
-
-client = TestClient(fastapi_app)
-#
-#
-# def test_browse_api(db_track):
-#     response = client.get("/api/browse/")
-#     assert response.status_code == 200
-#     # assert response.json() == {"msg": "Hello World"}
+def test_config(api_client):
+    response = api_client.get("/info")
+    result = response.json()
+    print(result)
 
 
-def test_foo(cli_runner):
-    pass
+def test_tracks_api(api_client, track_db):
+    response = api_client.get("/api/tracks")
+    assert response.status_code == 200
+
+    track_json = response.json()[0]
+    assert track_json["artist"] == track_db.artist
+    assert track_json["title"] == track_db.title
