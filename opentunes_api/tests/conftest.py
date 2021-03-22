@@ -21,33 +21,6 @@ from opentunes_api.database.models import Base
 fake = faker.Faker(["de_DE", "en_US", "ja_JP"])
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--collect-tests",
-        action="store_true",
-        help="Collect tests",
-        default=False,
-    )
-
-
-def pytest_collection_modifyitems(config, items):
-    tests = set()
-    if config.option.collect_tests:
-        for item in items:
-            # filename::test_class[optional]::test_function
-            path = os.path.relpath(item.module.__file__)
-            item.add_marker(pytest.mark.skipif(True, reason="Skip"))
-            tests.add("{}\n".format(path))
-            test_str = path
-            if item.cls:
-                test_str += f"::{item.cls.__name__}"
-            if item.function:
-                test_str += f"::{item.function.__name__}"
-            tests.add(f"{test_str}\n")
-        with open(".pytest.completion", "w") as file:
-            file.writelines(tests)
-
-
 @pytest.fixture(scope="session", autouse=True)
 def settings(tmpdir_factory):
     os.environ["DATABASE_URL"] = "sqlite://"
