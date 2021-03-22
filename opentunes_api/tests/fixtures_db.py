@@ -65,7 +65,6 @@ def db_session(engine, tables):
 @pytest.fixture(scope="function")
 def db_session_tmpfile(engine_tmpfile, tables_tmpfile):
     """Returns an sqlalchemy session, and after the test tears down everything properly."""
-    print("CONNECT DB")
     connection = engine_tmpfile.connect()
     # begin the nested transaction
     transaction = connection.begin()
@@ -76,8 +75,7 @@ def db_session_tmpfile(engine_tmpfile, tables_tmpfile):
 
     session.close()
     # roll back the broader transaction
-    print("Rollback")
-    transaction.rollback()
+    # transaction.rollback()
     # put back the connection to the connection pool
     connection.close()
 

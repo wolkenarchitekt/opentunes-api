@@ -8,7 +8,6 @@ from opentunes_api.config import Settings
 
 def get_engine():
     settings = Settings()
-    print(settings.database_url)
     if "sqlite" in settings.database_url:
         return create_engine(
             settings.database_url, connect_args={"check_same_thread": False}

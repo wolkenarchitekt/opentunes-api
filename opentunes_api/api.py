@@ -16,28 +16,18 @@ from opentunes_api.schemas import TrackSchema
 
 settings = Settings()
 templates = Jinja2Templates(directory="opentunes_api/templates")
-
-
-def get_app() -> FastAPI:
-    application = FastAPI(title="OpenTunes")
-    return application
-
-
-fastapi_app = get_app()
+fastapi_app = FastAPI()
 
 
 @fastapi_app.get("/info")
-async def info(session: Session = Depends(get_db)):
-    tracks = get_tracks(session=session)
-    print(f"Tracks: {tracks}")
+async def info():
     return settings.dict()
 
 
 @fastapi_app.get("/api/tracks")
 @fastapi_app.get("/api/tracks/")
-def tracks_api(session: Session = Depends(get_db)):
+async def tracks_api(session: Session = Depends(get_db)):
     tracks = get_tracks(session=session)
-    from ipdb import set_trace; set_trace()
     return tracks
 
 

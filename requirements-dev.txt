@@ -1,8 +1,6 @@
-asgi-lifespan==1.0.1
 black==20.8b1
 Faker==6.6.0
 flake8==3.8.4
-httpx==0.17.1
 ipdb==0.13.6
 ipython==7.21.0
 mypy==0.800
@@ -10,5 +8,4 @@ pandoc==1.0.2
 pur==5.3.0
 pylint==2.7.2
 pytest==6.2.2
-pytest-asyncio==0.14.0
 sqlalchemy-stubs==0.4
