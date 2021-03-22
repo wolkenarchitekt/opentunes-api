@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     # Root dir for entire music library
     music_root: Path
 
-    class Config:
-        if os.environ.get("STAGE", "DEVELOPMENT") == "DEVELOPMENT":
-            env_file = ".env"
+    # class Config:
+    #     if os.environ.get("STAGE", "DEVELOPMENT") == "DEVELOPMENT":
+    #         from ipdb import set_trace; set_trace()
+    #         env_file = ".env"
